@@ -113,5 +113,9 @@ class Vendedor {
                 "</Vendedor>";
     }
 
+    public static List<Vendedor> getListaVendedores() {
+        return vendedores;
+    }
+
 
 }

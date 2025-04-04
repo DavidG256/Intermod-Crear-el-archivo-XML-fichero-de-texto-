@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -125,13 +129,15 @@ public class Main {
                         Vendedor.printVendedor();
                         System.out.println("</Vendedores>");
                         break;
-                    default:
-                        System.out.println("Opción inválida. Intenta de nuevo.");
                     case 6:
-                        fr = new FileReader("/home/davgarant/Escritorio/vendedores.txt");
-
+                        crearFicheroXMLVendedores();
 
                         break;
+
+
+
+                    default:
+                        System.out.println("Opción inválida. Intenta de nuevo.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: Ingresa un número válido.");
@@ -141,5 +147,31 @@ public class Main {
 
         sc.close();
     }
+
+    public static void crearFicheroXMLVendedores() {
+        String archivo = "/home/davgarant/Escritorio/vendedores.txt";
+
+        try (FileWriter writer = new FileWriter(archivo)) {
+
+            writer.write("<VENDEDORES>\n");
+
+            for (Vendedor v : Vendedor.getListaVendedores()) {
+                writer.write("   <vendedor>\n");
+                writer.write("      <idvendedor>" + v.getIdVendedor() + "</idvendedor>\n");
+                writer.write("      <esjefe>" + v.getisEsJefe() + "</esjefe>\n");
+                writer.write("      <salario>" + v.getSalario() + "</salario>\n");
+                writer.write("      <jornadalaboral>" + v.getJornadaLaboral() + "</jornadalaboral>\n");
+                writer.write("   </vendedor>\n");
+            }
+
+            writer.write("</VENDEDORES>\n");
+
+            System.out.println("✅ El fichero XML de vendedores ha sido creado con éxito.");
+        } catch (IOException e) {
+            System.out.println("❌ Error al crear el archivo de texto");
+            e.printStackTrace();
+        }
+    }
+
 
 }
